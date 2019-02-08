@@ -12,3 +12,5 @@ permalink: /links/
 
 [notwolf](https://notwo1f.github.io/)
 
+[KningtTG.](http://www.kningtg.tech/)
+
